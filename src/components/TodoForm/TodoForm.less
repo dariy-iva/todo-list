@@ -1,0 +1,110 @@
+@import "../../less/variables";
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__name {
+    margin: 0;
+    color: @color-info;
+  }
+
+  &__fieldset {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-areas:
+          "title description"
+          "date description"
+          "files description"
+          "checked description";
+    grid-gap: 10px;
+    border: none;
+  }
+
+  &__field {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__field_content_title {
+    grid-area: title;
+  }
+
+  &__field_content_date {
+    grid-area: date;
+  }
+
+  &form__field_content_files {
+    grid-area: files;
+  }
+
+  &__field_content_checked {
+    grid-area: checked;
+  }
+
+  &__field_content_description {
+    grid-area: description;
+  }
+
+  &__input {
+    width: 50%;
+    box-sizing: border-box;
+  }
+
+  &__textarea {
+    flex-grow: 1;
+    resize: none;
+  }
+
+  &__error {
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    display: block;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 1;
+    color: @color-danger;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+  }
+
+  &__button {
+    padding: 10px 20px;
+    min-width: 150px;
+    max-width: 250px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    font-weight: 700;
+    transition: opacity .3s;
+  }
+
+  &__button:disabled {
+    cursor: default;
+  }
+
+  &__button:not(:disabled):hover {
+    opacity: .8;
+  }
+
+  &__button_type_submit {
+    background-color: @color-success;
+  }
+
+  &__button_type_reset {
+    background-color: @color-danger;
+  }
+}

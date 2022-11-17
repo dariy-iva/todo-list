@@ -1,0 +1,93 @@
+@import "../../less/variables.less";
+
+.table {
+  margin: 0 auto;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+
+  &__body-row {
+    cursor: pointer;
+    transition: background-color .3s;
+  }
+
+  &__body-row:hover {
+    background-color: @color-secondary;
+  }
+
+  &__body-row_active {
+    background-color: @color-secondary;
+  }
+
+  &__cell {
+    padding: 7px 10px;
+    box-sizing: border-box;
+    border: 1px solid @color-secondary;
+  }
+
+  &__cell_content_check {
+    position: relative;
+    width: 5%;
+  }
+
+  &__cell_content_title {
+    width: 20%;
+  }
+
+  &__cell_content_description {
+    width: 40%;
+  }
+
+  &__cell_content_date {
+    width: 20%;
+  }
+
+  &__cell_content_files {
+    width: 15%;
+  }
+
+  &__checked {
+    visibility: visible;
+    opacity: 1;
+    margin: auto;
+    width: 25px;
+    height: 25px;
+    background: url("../../images/checked_icon.svg") center / contain no-repeat;
+  }
+
+  &__body-row:hover &__checked {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  &__delete {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0;
+    visibility: hidden;
+    opacity: 0;
+    background: url("../../images/reset_icon.svg") center / 20px 20px no-repeat;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: scale .3s;
+  }
+
+  &__body-row:hover &__delete {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &__delete:hover {
+    scale: 1.2;
+  }
+
+  &__files {
+    padding: 0;
+    margin: 0;
+    list-style-position: inside;
+  }
+}
