@@ -10,22 +10,42 @@ export default function TodoList() {
   const currentTodo = React.useContext(GetCurrentTodoItemContext);
   const setCurrentTodo = React.useContext(SetCurrentTodoItemContext);
 
+  /**
+   * функция проверяет статус задачи (выполнена/завершена или нет)
+   * @param {Object} todoItem объект с данными задачи
+   * @return {Boolean} логический результат проверки
+   */
   function checkFinishedTodo(todoItem) {
     return dayjs() > dayjs(todoItem.date) || todoItem.isChecked;
   }
 
+  /**
+   * функция ищет задачу в todo-лист по id
+   * @param {String} id идентификатор элемента в DOM
+   * @return {Object} объект с данными задачи
+   */
   function findTodoByElementId(id) {
     const currentTodoId = +id.split('-')[1];
     return todoList.find(item => item.id === currentTodoId);
   }
 
+  /**
+   * функция обрабатывает клик по элементу todo-листа
+   * @param {Object} e событие в DOM
+   * @return {VoidFunction} записывает элемент в стейт выбранной задачи
+   */
   function handleTodoClick(e) {
     const currentTodo = findTodoByElementId(e.currentTarget.id);
 
     setCurrentTodo(currentTodo);
   }
 
-  function deleteTodo(e) {
+  /**
+   * функция обрабатывает клик по кнопке удаления элемента todo-листа
+   * @param {Object} e событие в DOM
+   * @return {VoidFunction} удаляет элемент из todo-лист
+   */
+  function handleDeleteTodoClick(e) {
     e.stopPropagation();
 
     const deletedTodo = findTodoByElementId(e.currentTarget.id);
@@ -62,7 +82,7 @@ export default function TodoList() {
             <button
               type="button"
               id={'delete-' + todo.id}
-              onClick={deleteTodo}
+              onClick={handleDeleteTodoClick}
               className="table__delete"
               aria-label="delete todo"
             />

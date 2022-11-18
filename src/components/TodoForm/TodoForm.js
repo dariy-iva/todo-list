@@ -1,7 +1,6 @@
 import React from 'react';
 import dayjs from "dayjs";
 import './TodoForm.less';
-import '../../less/layout.less';
 import {GetCurrentTodoItemContext, SetCurrentTodoItemContext} from "../../context/CurrentTodoItemContext";
 import {GetTodoListContext, SetTodoListContext} from "../../context/TodoListContext";
 import useFormValidator from "../../hooks/useFormValidator";
@@ -14,20 +13,38 @@ export default function TodoForm() {
   const {values, setValues, handleChange, errors, isValid, resetForm} = useFormValidator({});
   const [filesInput, setFilesInput] = React.useState(null);
 
-  const fileInputText =  !filesInput || Object.keys(filesInput).length === 0
+  const fileInputText = !filesInput || Object.keys(filesInput).length === 0
     ? 'Файлы не выбраны'
     : `Выбрано файлов: ${filesInput.length}`
 
+  /**
+   * функция обрабатывает событие изменений в поле типа 'file'
+   * @param {Object} e событие в DOM
+   * @return {VoidFunction} записывает выбранные пользователем файлы в стейт
+   */
   function handleChangeInputFiles(e) {
+    console.log(typeof e)
     setFilesInput(e.target.files);
-    setValues([...values, e.target.value]);
+    setValues((prevValue) => {
+      prevValue.files = e.target.value;
+      return prevValue;
+    });
   }
 
+  /**
+   * функция очищает стейт с данными полей формы
+   * @return {VoidFunction}
+   */
   function resetInputs() {
     resetForm();
     setFilesInput(null);
   }
 
+  /**
+   * функция обрабатывает событие очистки формы
+   * @param {Object} e событие в DOM
+   * @return {VoidFunction} очищает стейт с выбранной задачей и стейт с данными полей формы
+   */
   function handleResetForm(e) {
     if (e) {
       e.preventDefault();
@@ -40,6 +57,12 @@ export default function TodoForm() {
     resetInputs();
   }
 
+  /**
+   * функция обрабатывает событие отправки формы
+   * @param {Object} e событие в DOM
+   * @return {VoidFunction} собирает данные с полей формы, создает новую задачу из данных полей,
+   * записывает новую задачу в todo-лист
+   */
   function handleSubmitForm(e) {
     e.preventDefault();
 
