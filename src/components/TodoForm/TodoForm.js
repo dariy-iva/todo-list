@@ -23,7 +23,6 @@ export default function TodoForm() {
    * @return {VoidFunction} записывает выбранные пользователем файлы в стейт
    */
   function handleChangeInputFiles(e) {
-    console.log(typeof e)
     setFilesInput(e.target.files);
     setValues((prevValue) => {
       prevValue.files = e.target.value;
@@ -72,7 +71,7 @@ export default function TodoForm() {
       description: values.description,
       dateFinish: dayjs(values.dateFinish).format('YYYY-MM-DD'),
       isChecked: values.isChecked,
-      files: Array.from(filesInput),
+      files: Array.from(filesInput || []),
     }
 
     if (currentTodoItem) {
