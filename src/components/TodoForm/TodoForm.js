@@ -12,21 +12,20 @@ export default function TodoForm() {
   const todoList = React.useContext(GetTodoListContext);
   const setTodoList = React.useContext(SetTodoListContext);
   const {values, setValues, handleChange, errors, isValid, resetForm} = useFormValidator({});
-  const [filesList, setFilesList] = React.useState({});
-  const [isChecked, setIsChecked] = React.useState(false);
+  const [filesInput, setFilesInput] = React.useState(null);
+
+  const fileInputText =  !filesInput || Object.keys(filesInput).length === 0
+    ? 'Файлы не выбраны'
+    : `Выбрано файлов: ${filesInput.length}`
 
   function handleChangeInputFiles(e) {
-    setFilesList(e.target.files);
-  }
-
-  function handleChangeInputCheckbox(e) {
-    setIsChecked(e.target.checked);
+    setFilesInput(e.target.files);
+    setValues([...values, e.target.value]);
   }
 
   function resetInputs() {
     resetForm();
-    setFilesList({});
-    setIsChecked(false);
+    setFilesInput(null);
   }
 
   function handleResetForm(e) {
@@ -44,17 +43,13 @@ export default function TodoForm() {
   function handleSubmitForm(e) {
     e.preventDefault();
 
-    const newFilesList = currentTodoItem
-      ? Array.from(filesList).concat(currentTodoItem.files)
-      : Array.from(filesList);
-
     const newTodo = {
       id: currentTodoItem ? currentTodoItem.id : todoList.length + 1,
       title: values.title,
       description: values.description,
-      dateFinish: values.dateFinish,
-      isChecked: isChecked,
-      files: newFilesList,
+      dateFinish: dayjs(values.dateFinish).format('YYYY-MM-DD'),
+      isChecked: values.isChecked,
+      files: Array.from(filesInput),
     }
 
     if (currentTodoItem) {
@@ -78,11 +73,11 @@ export default function TodoForm() {
         title: currentTodoItem.title,
         description: currentTodoItem.description,
         dateFinish: currentTodoItem.dateFinish,
+        isChecked: currentTodoItem.isChecked,
       });
-      setFilesList(currentTodoItem.files);
-      setIsChecked(currentTodoItem.isChecked)
+      currentTodoItem.files.length && setFilesInput(currentTodoItem.files);
     }
-  }, [currentTodoItem])
+  }, [currentTodoItem]);
 
   return (
     <form
@@ -134,25 +129,30 @@ export default function TodoForm() {
           <span className="form__error">{errors.dateFinish}</span>
         </label>
 
-        <label className="form__field_content_files">
-          <input
-            type="file"
-            name="files"
-            files={filesList}
-            onChange={handleChangeInputFiles}
-            multiple
-            className="form__input"/>
-        </label>
+        <div className="form__field form__field_content_files-checked">
+          <label className="form__field form__field_content_files">
+            <input
+              type="file"
+              name="files"
+              files={filesInput}
+              onChange={handleChangeInputFiles}
+              multiple
+              className="form__input"/>
+            <span className="form__file">Выбрать файл</span>
+            <span className="form__file-text">{fileInputText}</span>
+          </label>
 
-        <label className="form__field_content_checked">
-          Выполнено:
-          <input
-            type="checkbox"
-            name="isChecked"
-            checked={isChecked}
-            onChange={handleChangeInputCheckbox}
-            className="form__input"/>
-        </label>
+          <label className="form__field form__field_content_checked">
+            Выполнено:
+            <input
+              type="checkbox"
+              name="isChecked"
+              value={values.isChecked || false}
+              checked={values.isChecked || false}
+              onChange={handleChange}
+              className="form__input"/>
+          </label>
+        </div>
       </fieldset>
 
       <div className="form__buttons">

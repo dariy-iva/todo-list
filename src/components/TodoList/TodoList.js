@@ -52,7 +52,7 @@ export default function TodoList() {
       <tbody>
       {todoList.map((todo) => (
         <tr
-          key={todo.id}
+          key={`tr-${todo.id}`}
           id={'cell-' + todo.id}
           onClick={handleTodoClick}
           className={`table__body-row + ${currentTodo?.id === todo.id ? 'table__body-row_active' : ''}`}
@@ -72,7 +72,7 @@ export default function TodoList() {
             {todo.description}
           </td>
           <td className="table__cell">
-            {todo.dateFinish.toString()}
+            {dayjs(todo.dateFinish).format('DD.MM.YYYY')}
           </td>
           <td className="table__cell">
             <ul className="table__files">

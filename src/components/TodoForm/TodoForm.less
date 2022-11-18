@@ -17,12 +17,11 @@
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
     grid-template-areas:
           "title description"
           "date description"
-          "files description"
-          "checked description";
+          "files-checked description";
     grid-gap: 10px;
     border: none;
   }
@@ -31,6 +30,7 @@
     position: relative;
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
   &__field_content_title {
@@ -41,13 +41,13 @@
     grid-area: date;
   }
 
-  &form__field_content_files {
-    grid-area: files;
+  &__field_content_files-checked {
+    grid-area: files-checked;
   }
 
-  &__field_content_checked {
-    grid-area: checked;
-  }
+  //&__field_content_files {
+  //  flex-grow: 1;
+  //}
 
   &__field_content_description {
     grid-area: description;
@@ -58,15 +58,40 @@
     box-sizing: border-box;
   }
 
+  &__input[type="file"] {
+    display: none;
+  }
+
+  &__file {
+    display: inline-block;
+    padding: 3px 7px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: @color-secondary;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: opacity .3s;
+  }
+
+  &__file:hover {
+    opacity: .8;
+  }
+
+  &__file-text {
+    font-size: 14px;
+    margin-left: 5px;
+  }
+
   &__textarea {
     flex-grow: 1;
+    height: 100%;
     resize: none;
   }
 
   &__error {
     position: absolute;
     left: 0;
-    bottom: -10px;
+    bottom: -11px;
     display: block;
     font-weight: 500;
     font-size: 11px;
